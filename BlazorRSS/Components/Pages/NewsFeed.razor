@@ -1,0 +1,50 @@
+﻿@page "/news"
+@using System.ServiceModel.Syndication
+@inject BlazorRSS.Services.RssFeedService RssFeedService
+
+<h3>Nyheter från Sydsvenskan</h3>
+
+@if (newsItems == null)
+{
+    <p>Laddar</p>
+}
+else if (!newsItems.Any())
+{
+    <p>Finns inga nyheter att visa.</p>
+}
+else
+{
+    <ul>
+        @foreach (var item in newsItems)
+        {
+            <li>
+                
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<SyndicationItem> newsItems;
+    private System.Threading.Timer timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        await FetchNewsFeed();
+
+        
+        timer = new Timer(async _ => await FetchNewsFeed(), null, 60000, 60000);
+    }
+
+    private async Task FetchNewsFeed()
+    {
+        newsItems = await RssFeedService.GetRssFeedAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+}

@@ -1,10 +1,12 @@
 using BlazorRSS.Components;
+using BlazorRSS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddHttpClient<RssFeedService>();
 
 var app = builder.Build();
 
@@ -17,11 +19,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseStaticFiles();
 app.UseAntiforgery();
+app.UseStaticFiles();
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.MapRazorComponents<App>();
+    
 
 app.Run();
