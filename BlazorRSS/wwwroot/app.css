@@ -30,8 +30,12 @@ h1:focus {
 
 .article-image {
     position: relative;
-    width: auto;
+    display: block;
+    width: 100%;
     height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    
 }
 .article-container {
    
@@ -43,11 +47,16 @@ h1:focus {
     bottom: 0;
     padding-top: 10px;
     padding-left: 50px;
-    background-color: antiquewhite;
-    width: 100%;
+    padding-right: 50px;
+    background-color: white;
     align-items: center;
     justify-content: center;
     align-content: center;
+    border-radius: 50px 50px 0px 0px;
+    width: 100%;
+    border-top: 4px solid; 
+    border-color: ghostwhite;
+    opacity: 0.85;
 
 }
 

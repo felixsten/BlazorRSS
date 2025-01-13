@@ -16,11 +16,11 @@ else if (!newsItems.Any())
 else
 {
     
-     <Carousel Autoplay="CarouselAutoPlay.StartOnPageLoad" ShowIndicators="false">
-        <CarouselItem Active="true">
+     <Carousel Autoplay="CarouselAutoPlay.StartOnPageLoad" ShowIndicators="false" ShowPreviousNextControls="false" >
+        <CarouselItem Active="true" Interval="5000">
 
             <div class="article-image">
-                <Image Src="images/sydsvenskan-logo-only.png" />
+                <Image Src="images/sydsvenskan-logo-only.png" Class="rounded mx-auto d-block"/>
             </div>
             
             <div class="article-info">
@@ -38,7 +38,7 @@ else
             
             
             
-            <CarouselItem>
+            <CarouselItem Interval="15000">
                 
                 
                 <div class="article-image">
@@ -48,7 +48,7 @@ else
                 }
                 else
                 {
-                    <Image Src="images/sydsvenskan-logo-only.png" />
+                    <Image Src="images/sydsvenskan-logo-only.png" Class="rounded mx-auto d-block"/>
                 }
                 </div>
 
