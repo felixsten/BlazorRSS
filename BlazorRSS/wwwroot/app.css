@@ -22,8 +22,43 @@ h1:focus {
 
     .blazor-error-boundary::after {
         content: "An error has occurred."
-    }
+    } 
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
+}
+
+.article-image {
+    position: relative;
+    width: auto;
+    height: auto;
+}
+.article-container {
+   
+    
+}
+
+.article-info {
+    position: absolute;
+    bottom: 0;
+    padding-top: 10px;
+    padding-left: 50px;
+    background-color: antiquewhite;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+
+}
+
+.article-info h3 {
+
+}
+
+.article-info p {
+    font-size: 20px;
+}
+
+.div {
+    
 }

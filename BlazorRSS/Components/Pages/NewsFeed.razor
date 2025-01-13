@@ -3,7 +3,7 @@
 @using BlazorRSS.Services
 @inject BlazorRSS.Services.RssFeedService RssFeedService
 
-<h3>Nyheter från Sydsvenskan</h3>
+
 
 @if (newsItems == null)
 {
@@ -15,30 +15,66 @@ else if (!newsItems.Any())
 }
 else
 {
-    <ul>
+    
+     <Carousel Autoplay="CarouselAutoPlay.StartOnPageLoad" ShowIndicators="false">
+        <CarouselItem Active="true">
+
+            <div class="article-image">
+                <Image Src="images/sydsvenskan-logo-only.png" />
+            </div>
+            
+            <div class="article-info">
+                <h3>Nyheter från Sydsvenskan</h3>
+                <p> </p>
+                <p> </p>
+            </div>
+        </CarouselItem>
+
         @foreach (var item in newsItems)
         {
-            <li style="margin-bottom: 20px;">
-                <h3>@item.Title</h3>
-                <p><em>@item.PublishDate.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</em></p>
+
+        
+
+            
+            
+            
+            <CarouselItem>
                 
+                
+                <div class="article-image">
                 @if (!string.IsNullOrEmpty(item.ImageUrl))
                 {
-                    <img src="@item.ImageUrl" alt="@item.Title" style="max-width: 100%; height: auto; margin-bottom: 10px;" />
-                }
-
-                @if (!string.IsNullOrEmpty(item.Description))
-                {
-                    <p>@item.Description</p>
+                    <Image Src="@item.ImageUrl" alt="@item.Title"  />
                 }
                 else
                 {
-                    <p>@item.Summary</p>
+                    <Image Src="images/sydsvenskan-logo-only.png" />
                 }
-            </li>
+                </div>
+
+                <div class="article-container">
+                    <div class="article-info">
+                        <h3>@item.Title</h3>
+                        <p><em>@item.PublishDate.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</em></p>
+                        @if (!string.IsNullOrEmpty(item.Description))
+                        {
+                            <p>@item.Description</p>
+                        }
+                        else
+                        {
+                            <p>@item.Summary</p>
+                        }
+                    </div>
+                </div>
+
+                
+            </CarouselItem>
+        
         }
-    </ul>
+    </Carousel>
 }
+
+
 
 
 @code {
