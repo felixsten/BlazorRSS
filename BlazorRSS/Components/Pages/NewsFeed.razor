@@ -16,6 +16,8 @@ else if (!newsItems.Any())
 else
 {
     
+    
+
      <Carousel Autoplay="CarouselAutoPlay.StartOnPageLoad" ShowIndicators="false" ShowPreviousNextControls="true" Touch="true" Keyboard="true">
         <CarouselItem Active="true" Interval="5000">
 
@@ -33,7 +35,9 @@ else
         @foreach (var item in newsItems)
         {
 
-
+            <div class="mini-feed">
+                <p class="mini-feed-text">@item.Title</p>
+            </div>
 
 
 
