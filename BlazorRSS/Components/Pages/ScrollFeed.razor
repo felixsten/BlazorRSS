@@ -1,4 +1,4 @@
-﻿@page "/news"
+﻿@page "/scrollfeed"
 @using System.ServiceModel.Syndication
 @using BlazorRSS.Services
 @inject BlazorRSS.Services.RssFeedService RssFeedService
@@ -15,20 +15,18 @@ else if (!newsItems.Any())
 }
 else
 {
+    <div class="container">
+        <div class="scrollnews">
     
-     <Carousel Autoplay="CarouselAutoPlay.StartOnPageLoad" ShowIndicators="false" ShowPreviousNextControls="true" Touch="true" Keyboard="true">
-        <CarouselItem Active="true" Interval="5000">
 
-            <div class="article-image">
-                <Image Src="images/sydsvenskan-logo-only.png" Class="rounded mx-auto d-block"/>
-            </div>
             
+
             <div class="article-info">
                 <h3>Nyheter från Sydsvenskan</h3>
                 <p> </p>
                 <p> </p>
             </div>
-        </CarouselItem>
+        
 
         @foreach (var item in newsItems)
         {
@@ -38,19 +36,15 @@ else
 
 
 
-            <CarouselItem Interval="15000">
-                
-                
-                
+            
+
+
+
                 <div class="article-image">
-                @if (!string.IsNullOrEmpty(item.ImageUrl))
-                {
-                    <Image Src="@item.ImageUrl" alt="@item.Title"  />
-                }
-                else
-                {
-                    <Image Src="images/sydsvenskan-logo-only.png" Class="rounded mx-auto d-block"/>
-                }
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <Image Src="@item.ImageUrl" alt="@item.Title" />
+                    }
                 </div>
 
                 <div class="article-container">
@@ -68,18 +62,19 @@ else
                     </div>
                 </div>
 
-                
-            </CarouselItem>
-        
+
+            
+
         }
-    </Carousel>
+        </div>
+    </div>
 }
 
 
 
 
 @code {
-    private List<RssFeedItem> ?newsItems;
+    private List<RssFeedItem>? newsItems;
 
     protected override async Task OnInitializedAsync()
     {
