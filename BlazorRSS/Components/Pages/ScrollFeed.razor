@@ -2,6 +2,7 @@
 @using System.ServiceModel.Syndication
 @using BlazorRSS.Services
 @inject BlazorRSS.Services.RssFeedService RssFeedService
+@inject IJSRuntime JSRuntime
 
 
 
@@ -16,7 +17,7 @@ else if (!newsItems.Any())
 else
 {
     <div class="container">
-        <div class="scrollnews">
+        <div class="scrollnews" id="scroll-container">
     
 
             
@@ -79,5 +80,20 @@ else
     protected override async Task OnInitializedAsync()
     {
         newsItems = await RssFeedService.GetRssFeedAsync();
+
+
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Console.WriteLine($"firstRender: {firstRender}");
+
+        if (firstRender)
+        {
+            Console.WriteLine("Calling Javascript autoscroll");
+
+            await JSRuntime.InvokeVoidAsync("startAutoScroll", "scroll-container");
+        }
+    }
+    
 }
