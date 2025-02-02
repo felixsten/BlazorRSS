@@ -29,7 +29,7 @@ else
             </div>
         
 
-        @foreach (var item in newsItems)
+        @foreach (var item in pageNewsItems)
         {
 
 
@@ -63,10 +63,15 @@ else
                     </div>
                 </div>
 
-
+                
             
 
         }
+            <div class="pagination-controls">
+                <button @onclick="PreviousPage" disabled="@(!HasPreviousPage)">Previous</button>
+                <button @onclick="NextPage" disabled="@(!HasNextPage)">Next</button>
+            </div>
+
         </div>
     </div>
 }
@@ -76,24 +81,45 @@ else
 
 @code {
     private List<RssFeedItem>? newsItems;
+    private List<RssFeedItem>? pageNewsItems;
+
+    private int currentPage = 1;
+    private int pageSize = 2; 
 
     protected override async Task OnInitializedAsync()
     {
         newsItems = await RssFeedService.GetRssFeedAsync();
-
-
+        UpdatePageNewsItems();
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private void UpdatePageNewsItems()
     {
-        Console.WriteLine($"firstRender: {firstRender}");
+        pageNewsItems = newsItems
+            .Skip((currentPage - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+    }
 
-        if (firstRender)
+    private bool HasNextPage => newsItems != null && currentPage * pageSize < newsItems.Count;
+    private bool HasPreviousPage => currentPage > 1;
+
+    private void NextPage()
+    {
+        if (HasNextPage)
         {
-            Console.WriteLine("Calling Javascript autoscroll");
-
-            await JSRuntime.InvokeVoidAsync("startAutoScroll", "scroll-container");
+            currentPage++;
+            UpdatePageNewsItems();
         }
     }
+
+    private void PreviousPage()
+    {
+        if (HasPreviousPage)
+        {
+            currentPage--;
+            UpdatePageNewsItems();
+        }
+    }
+
     
 }
