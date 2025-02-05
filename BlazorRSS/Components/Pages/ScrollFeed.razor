@@ -17,30 +17,31 @@ else if (!newsItems.Any())
 else
 {
     <div class="container">
+        <div class="pagination-controls">
+            <button @onclick="PreviousPage" disabled="@(!HasPreviousPage)">Previous</button>
+            <button @onclick="NextPage" disabled="@(!HasNextPage)">Next</button>
+        </div>
         <div class="scrollnews" id="scroll-container">
-    
-
-            
-
-            <div class="article-info">
-                <h3>Nyheter från Sydsvenskan</h3>
-                <p> </p>
-                <p> </p>
-            </div>
-        
-
-        @foreach (var item in pageNewsItems)
-        {
 
 
-                <div class="article-image">
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <Image Src="@item.ImageUrl" alt="@item.Title" />
-                    }
-                </div>
+
+
+
+
+
+            @foreach (var item in pageNewsItems)
+            {
+
+
+
 
                 <div class="article-container">
+                    <div class="article-image">
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img Src="@item.ImageUrl" alt="@item.Title" />
+                        }
+                    </div>
                     <div class="article-info">
                         <h3>@item.Title</h3>
                         <p class="timedate"><em>@item.PublishDate.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</em></p>
@@ -55,16 +56,14 @@ else
                     </div>
                 </div>
 
-                
-            
 
-        }
-            <div class="pagination-controls">
-                <button @onclick="PreviousPage" disabled="@(!HasPreviousPage)">Previous</button>
-                <button @onclick="NextPage" disabled="@(!HasNextPage)">Next</button>
-            </div>
+
+
+            }
+
 
         </div>
+
     </div>
 }
 
@@ -76,16 +75,25 @@ else
     private List<RssFeedItem>? pageNewsItems;
 
     private int currentPage = 1;
-    private int pageSize = 2; 
+    private int pageSize = 2;
+    private bool autoScroll = true;
 
     protected override async Task OnInitializedAsync()
     {
+
         newsItems = await RssFeedService.GetRssFeedAsync();
+
         UpdatePageNewsItems();
+
+
+        AutoScrollNewsItems();
+
     }
 
     private void UpdatePageNewsItems()
     {
+
+
         pageNewsItems = newsItems
             .Skip((currentPage - 1) * pageSize)
             .Take(pageSize)
@@ -99,8 +107,10 @@ else
     {
         if (HasNextPage)
         {
+            
             currentPage++;
             UpdatePageNewsItems();
+
         }
     }
 
@@ -111,6 +121,24 @@ else
             currentPage--;
             UpdatePageNewsItems();
         }
+    }
+
+    private void AutoScrollNewsItems()
+    {
+        
+        while (currentPage <= 24) {
+
+            
+            currentPage++;
+            UpdatePageNewsItems();
+            
+            
+        }
+        
+
+        
+        
+        
     }
 
     

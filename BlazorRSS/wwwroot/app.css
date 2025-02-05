@@ -125,13 +125,23 @@ header nav a:hover {
     padding: 0px;
 }
 
+.scrollnews {
+
+}
+
+    .scrollnews .article-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 64px;
+        padding-bottom: 40px;
+    }
+
 .scrollnews .article-info {
-    margin-bottom: 64px;
-    padding-bottom: 40px;
+
 }
 
 .scrollnews .article-image {
-    margin-top: 200px;
+    background-color: ghostwhite;
 }
 
 .mini-feed {
