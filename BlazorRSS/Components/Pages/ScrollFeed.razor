@@ -18,9 +18,9 @@ else
 {
     
         <div class="scrollnews" id="scroll-container">
-    
 
-            
+
+
 
            
         
@@ -53,14 +53,13 @@ else
                     </div>
                 </div>
 
-                
-            
 
-        }
-            <div class="pagination-controls">
-                <button @onclick="PreviousPage" disabled="@(!HasPreviousPage)">Previous</button>
-                <button @onclick="NextPage" disabled="@(!HasNextPage)">Next</button>
-            </div>
+
+
+            }
+
+
+        </div>
 
         </div>
     
@@ -80,13 +79,17 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+
         newsItems = await RssFeedService.GetRssFeedAsync();
+
         UpdatePageNewsItems();
         StartAutoPage();
     }
 
     private void UpdatePageNewsItems()
     {
+
+
         pageNewsItems = newsItems
             .Skip((currentPage - 1) * pageSize)
             .Take(pageSize)
@@ -100,8 +103,10 @@ else
     {
         if (HasNextPage)
         {
+            
             currentPage++;
             UpdatePageNewsItems();
+
         }
     }
 
