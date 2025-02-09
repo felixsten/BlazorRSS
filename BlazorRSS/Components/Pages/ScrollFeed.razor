@@ -16,34 +16,32 @@ else if (!newsItems.Any())
 }
 else
 {
-    <div class="container">
+    
         <div class="scrollnews" id="scroll-container">
     
 
             
 
-            <div class="article-info">
-                <h3>Nyheter från Sydsvenskan</h3>
-                <p> </p>
-                <p> </p>
-            </div>
+           
         
 
         @foreach (var item in pageNewsItems)
         {
 
 
-                <div class="article-image">
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <Image Src="@item.ImageUrl" alt="@item.Title" />
-                    }
-                </div>
-
                 <div class="article-container">
+                    <div class="article-image">
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl" alt="@item.Title" />
+                        }
+                    </div>
+
                     <div class="article-info">
                         <h3>@item.Title</h3>
-                        <p class="timedate"><em>@item.PublishDate.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</em></p>
+                        <p class="timedate">
+                            <em>@item.PublishDate.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</em>
+                        </p>
                         @if (!string.IsNullOrEmpty(item.Description))
                         {
                             <p>@item.Description</p>
@@ -65,7 +63,7 @@ else
             </div>
 
         </div>
-    </div>
+    
 }
 
 
@@ -76,12 +74,15 @@ else
     private List<RssFeedItem>? pageNewsItems;
 
     private int currentPage = 1;
-    private int pageSize = 2; 
+    private int pageSize = 3; 
+    private bool autoPageEnabled = true;
+    private int autoPageInterval = 10000;
 
     protected override async Task OnInitializedAsync()
     {
         newsItems = await RssFeedService.GetRssFeedAsync();
         UpdatePageNewsItems();
+        StartAutoPage();
     }
 
     private void UpdatePageNewsItems()
@@ -110,6 +111,24 @@ else
         {
             currentPage--;
             UpdatePageNewsItems();
+        }
+    }
+
+    private async void StartAutoPage()
+    {
+        while (autoPageEnabled)
+        {
+            await Task.Delay(autoPageInterval);
+            if (HasNextPage)
+            {
+                NextPage();
+            }
+            else
+            {
+                currentPage = 1;
+                UpdatePageNewsItems();
+            }
+            StateHasChanged();
         }
     }
 
