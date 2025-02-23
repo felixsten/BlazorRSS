@@ -32,12 +32,22 @@ else
             </div>
         </CarouselItem>
 
+        <div class="mini-feed-container">
+            <div class="mini-feed-wrapper">
+                <div class="mini-feed-news-content">
+                    @foreach (var item in newsItems)
+                    {
+                        <div class="mini-feed">
+                            <p class="mini-feed-text">@item.Title |</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
         @foreach (var item in newsItems)
         {
 
-            <div class="mini-feed">
-                <p class="mini-feed-text">@item.Title</p>
-            </div>
 
 
 

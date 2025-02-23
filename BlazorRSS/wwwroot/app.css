@@ -145,25 +145,6 @@ header nav a:hover {
     background-color: ghostwhite;
 }
 
-
-.mini-feed {
-    position: absolute;
-    z-index: 2;
-    padding: 0px;
-    margin: 0px;
-    background-color: ghostwhite;
-    width: 100%;
-    border-bottom: 2px solid;
-    border-color: lightsteelblue;
-}
-
-.mini-feed p {
-    margin: 10px;
-    padding: 12px;
-    font-size: 20px;
-    font-weight: 500;
-}
-
 .scrollnews {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -219,4 +200,48 @@ header nav a:hover {
         position: relative;
     }
 
+.mini-feed-container {
+    width: 100%;
+    background-color: ghostwhite;
+    color: black;
+    overflow: hidden;
+    white-space: nowrap;
+    position: absolute;
+    z-index: 2;
+    padding: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
 
+.mini-feed-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.mini-feed-news-content {
+    display: inline-block;
+    animation: scrollNews 60s linear infinite;
+}
+
+.mini-feed {
+    display: inline-block;
+    padding-right: 20px; 
+    padding-left: 20px;
+}
+
+.mini-feed-text {
+    display: inline;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+@keyframes scrollNews {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
