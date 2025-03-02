@@ -16,6 +16,19 @@ else if (!newsItems.Any())
 }
 else
 {
+    <div class="mini-feed-container">
+        <div class="mini-feed-wrapper">
+            <div class="mini-feed-news-content">
+                @foreach (var item in newsItems)
+                {
+                    <div class="mini-feed">
+                        <p class="mini-feed-text">@item.Title |</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
     <div class="scrollnews" id="scroll-container">
 
 
@@ -68,9 +81,9 @@ else
     private List<RssFeedItem>? pageNewsItems;
 
     private int currentPage = 1;
-    private int pageSize = 4; 
+    private int pageSize = 6; 
     private bool autoPageEnabled = true;
-    private int autoPageInterval = 10000;
+    private int autoPageInterval = 20000;
 
     protected override async Task OnInitializedAsync()
     {
