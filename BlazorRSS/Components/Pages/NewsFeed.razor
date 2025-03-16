@@ -38,7 +38,9 @@ else
                     @foreach (var item in newsItems)
                     {
                         <div class="mini-feed">
-                            <p class="mini-feed-text">@item.Title |</p>
+                            <a href="@($"/article/{Uri.EscapeDataString(item.Title)}")">
+                                <p class="mini-feed-text">@item.Title</p>
+                            </a>
                         </div>
                     }
                 </div>
@@ -69,7 +71,9 @@ else
 
                 <div class="article-container">
                     <div class="article-info">
-                        <h3>@item.Title</h3>
+                        <a href="@($"/article/{Uri.EscapeDataString(item.Title)}")">
+                            <h3>@item.Title</h3>
+                        </a>
                         <p class="timedate"><em>@item.PublishDate.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</em></p>
                         @if (!string.IsNullOrEmpty(item.Description))
                         {

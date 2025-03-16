@@ -108,8 +108,20 @@ header nav a:hover {
 
 }
 
-.article-info h3 {
+.article-info a {
+    text-decoration: none;
+    color: black;
+}
 
+
+
+.article-info h3 {
+    text-decoration: none;
+    color: black;
+}
+
+.article-info h3:hover {
+    text-decoration: underline;
 }
 
 .article-info p {
@@ -207,6 +219,49 @@ header nav a:hover {
     font-size: 20px;
 }
 
+@media (max-width: 600px) {
+    .scrollnews .article-info p {
+        font-size: 10px; 
+    }
+
+    .scrollnews .article-info h3 {
+        font-size: 14px; 
+    }
+}
+
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    .scrollnews .article-info p {
+        font-size: 14px; 
+    }
+
+    .scrollnews .article-info h3 {
+        font-size: 18px; 
+    }
+}
+
+
+@media (min-width: 1025px) {
+    .scrollnews .article-info p {
+        font-size: 18px; 
+    }
+
+    .scrollnews .article-info h3 {
+        font-size: 22px; 
+    }
+}
+
+
+@media (min-width: 1440px) {
+    .scrollnews .article-info p {
+        font-size: 20px; 
+    }
+
+    .scrollnews .article-info h3 {
+        font-size: 24px; 
+    }
+}
+
 
 .mini-feed-container {
     width: 100%;
@@ -234,15 +289,30 @@ header nav a:hover {
 
 .mini-feed {
     display: inline-block;
-    padding-right: 20px; 
+    padding-right: 20px;
     padding-left: 20px;
+    border-right: 2px solid;
+    border-color: grey;
+}
+
+.mini-feed a {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+.mini-feed a:hover {
+    text-decoration: underline;
 }
 
 .mini-feed-text {
     display: inline;
     font-size: 20px;
     font-weight: 500;
+    
 }
+
+
+
 
 @keyframes scrollNews {
     0% {
@@ -251,5 +321,77 @@ header nav a:hover {
 
     100% {
         transform: translateX(-50%);
+    }
+}
+
+
+.article-single .article-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.article-single .article-image {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.article-single .article-image img {
+    width: 77%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.article-single .article-content {
+    font-size: 20px;
+    color: #555;
+}
+
+.article-single .article-content p {
+    margin-bottom: 16px;
+}
+
+.article-single .article-content .article-date {
+    font-size: 0.9rem;
+    color: #888;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.back-button {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: ghostwhite;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: dimgrey;
+}
+
+@media screen and (max-width: 768px) {
+    .article-single .article-container {
+        padding: 15px;
+    }
+
+    .article-single .article-header h1 {
+        font-size: 2rem;
+    }
+
+    .article-single .article-content {
+        font-size: 1rem;
     }
 }
