@@ -101,6 +101,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        newsItems = await RssFeedService.GetRssFeedAsync();
+        newsItems = await RssFeedService.GetRssFeedAsync("https://www.sydsvenskan.se/feeds/feed.xml");
     }
 }

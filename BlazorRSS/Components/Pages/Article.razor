@@ -47,7 +47,7 @@
     protected override async Task OnInitializedAsync()
     {
 
-        newsItems = await RssFeedService.GetRssFeedAsync();
+        newsItems = await RssFeedService.GetRssFeedAsync("feedUrl");
 
 
         string decodedTitle = Uri.UnescapeDataString(Title);

@@ -17,7 +17,7 @@ namespace BlazorRSS.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<RssFeedItem>> GetRssFeedAsync(string feedUrl = "https://www.sydsvenskan.se/feeds/feed.xml")
+        public async Task<List<RssFeedItem>> GetRssFeedAsync(string feedUrl)
         {
             try
             {
