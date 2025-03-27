@@ -1,4 +1,4 @@
-﻿@page "/news"
+﻿@page "/newsworld"
 @using System.ServiceModel.Syndication
 @using BlazorRSS.Services
 @inject BlazorRSS.Services.RssFeedService RssFeedService
@@ -29,7 +29,7 @@ else
                 </div>
 
                 <div class="article-info">
-                    <h3>Nyheter från Sydsvenskan</h3>
+                    <h3>Sky News World</h3>
                     <p> </p>
                     <p> </p>
                 </div>
@@ -106,7 +106,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        newsItems = await RssFeedService.GetRssFeedAsync("https://www.sydsvenskan.se/feeds/feed.xml");
+        newsItems = await RssFeedService.GetRssFeedAsync("https://feeds.skynews.com/feeds/rss/world.xml");
     }
 
     private void ShowArticle(RssFeedItem article)

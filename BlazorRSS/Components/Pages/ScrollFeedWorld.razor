@@ -16,20 +16,24 @@ else if (!newsItems.Any())
 }
 else
 {
-    <div class="mini-feed-container">
-        <div class="mini-feed-wrapper">
-            <div class="mini-feed-news-content">
-                @foreach (var item in newsItems)
-                {
-                    <div class="mini-feed">
-                        <a href="@($"/article/{Uri.EscapeDataString(item.Title)}")">
+    @if (SelectedArticle != null)
+    {
+        <SingleArticle Article="SelectedArticle" OnClose="ClearSelectedArticle" />
+    }
+    else
+    {
+        <div class="mini-feed-container">
+            <div class="mini-feed-wrapper">
+                <div class="mini-feed-news-content">
+                    @foreach (var item in newsItems)
+                    {
+                        <div class="mini-feed" @onclick="() => ShowArticle(item)">
                             <p class="mini-feed-text">@item.Title</p>
-                        </a>
-                    </div>
-                }
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
 
     <div class="scrollnews" id="scroll-container">
 
@@ -39,42 +43,35 @@ else
 
 
 
-        @foreach (var item in pageNewsItems)
-        {
+            @foreach (var item in pageNewsItems)
+            {
+                <div class="article-container">
+                    <div class="article-image">
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl" alt="@item.Title" />
+                        }
+                    </div>
 
-
-            <div class="article-container">
-                <div class="article-image">
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <img src="@item.ImageUrl" alt="@item.Title" />
-                    }
-                </div>
-
-                <div class="article-info">
-                    <a href="@($"/article/{Uri.EscapeDataString(item.Title)}")">
+                    <div class="article-info" @onclick="() => ShowArticle(item)">
                         <h3>@item.Title</h3>
-                    </a>
-                    <p class="timedate">
-                        <em>@item.PublishDate.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</em>
-                    </p>
-                    @if (!string.IsNullOrEmpty(item.Description))
-                    {
-                        <p>@item.Description</p>
-                    }
-                    else
-                    {
-                        <p>@item.Summary</p>
-                    }
+                        <p class="timedate">
+                            <em>@item.PublishDate.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</em>
+                        </p>
+                        @if (!string.IsNullOrEmpty(item.Description))
+                        {
+                            <p>@item.Description</p>
+                        }
+                        else
+                        {
+                            <p>@item.Summary</p>
+                        }
+                    </div>
                 </div>
-            </div>
-
-
-
-
-        }
+            }
 
     </div>
+    }
 }
 
 
@@ -83,6 +80,7 @@ else
 @code {
     private List<RssFeedItem>? newsItems;
     private List<RssFeedItem>? pageNewsItems;
+    private RssFeedItem? SelectedArticle;
 
     private int currentPage = 1;
     private int pageSize = 6;
@@ -149,5 +147,16 @@ else
         }
     }
 
+    private void ShowArticle(RssFeedItem article)
+    {
+        SelectedArticle = article;
+    }
+
+    
+    private void ClearSelectedArticle()
+    {
+        SelectedArticle = null;
+    }
 
 }
+

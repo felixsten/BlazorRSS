@@ -16,31 +16,35 @@ else if (!newsItems.Any())
 }
 else
 {
-    <div class="mini-feed-container">
-        <div class="mini-feed-wrapper">
-            <div class="mini-feed-news-content">
-                @foreach (var item in newsItems)
-                {
-                    <div class="mini-feed">
-                        <a href="@($"/article/{Uri.EscapeDataString(item.Title)}")">
+    @if (SelectedArticle != null)
+    {
+        <SingleArticle Article="SelectedArticle" OnClose="ClearSelectedArticle" />
+    }
+    else
+    {
+        <div class="mini-feed-container">
+            <div class="mini-feed-wrapper">
+                <div class="mini-feed-news-content">
+                    @foreach (var item in newsItems)
+                    {
+                        <div class="mini-feed" @onclick="() => ShowArticle(item)">
                             <p class="mini-feed-text">@item.Title</p>
-                        </a>
-                    </div>
-                }
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="scrollnews" id="scroll-container">
-
+        <div class="scrollnews" id="scroll-container">
 
 
 
-           
-        
 
-        @foreach (var item in pageNewsItems)
-        {
+
+
+
+            @foreach (var item in pageNewsItems)
+            {
 
 
                 <div class="article-container">
@@ -51,10 +55,8 @@ else
                         }
                     </div>
 
-                    <div class="article-info">
-                        <a href="@($"/article/{Uri.EscapeDataString(item.Title)}")">
-                            <h3>@item.Title</h3>
-                        </a>
+                    <div class="article-info" @onclick="() => ShowArticle(item)">
+                        <h3>@item.Title</h3>
                         <p class="timedate">
                             <em>@item.PublishDate.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</em>
                         </p>
@@ -69,12 +71,14 @@ else
                     </div>
                 </div>
 
-            
 
 
-        }
 
-    </div>
+            }
+
+        </div>
+    }
+    
 }
 
 
@@ -83,6 +87,7 @@ else
 @code {
     private List<RssFeedItem>? newsItems;
     private List<RssFeedItem>? pageNewsItems;
+    private RssFeedItem? SelectedArticle;
 
     private int currentPage = 1;
     private int pageSize = 6; 
@@ -149,5 +154,15 @@ else
         }
     }
 
+    private void ShowArticle(RssFeedItem article)
+    {
+        SelectedArticle = article;
+    }
+
+
+    private void ClearSelectedArticle()
+    {
+        SelectedArticle = null;
+    }
     
 }

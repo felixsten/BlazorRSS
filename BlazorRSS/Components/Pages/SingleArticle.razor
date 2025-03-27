@@ -1,0 +1,42 @@
+﻿@using BlazorRSS.Services
+
+@code {
+    [Parameter] public RssFeedItem Article { get; set; }
+
+    private void GoBack()
+    {
+        
+        OnClose.InvokeAsync();
+    }
+
+    [Parameter] public EventCallback OnClose { get; set; }
+}
+
+<div class="container">
+    <div class="article-single">
+        <div class="article-container">
+
+            <div class="article-header">
+                <h1>@Article?.Title</h1>
+            </div>
+
+            <div class="article-image">
+                <img src="@Article?.ImageUrl" alt="@Article?.Title" />
+            </div>
+
+            <div class="article-content">
+                @if (!string.IsNullOrEmpty(Article?.Description))
+                {
+                    <p>@Article?.Description</p>
+                }
+                else
+                {
+                    <p>@Article?.Summary</p>
+                }
+                <p class="article-date">@Article?.PublishDate.ToString("MMMM dd, yyyy")</p>
+            </div>
+
+            <button @onclick="GoBack" class="back-button">Tillbaka</button>
+        </div>
+    </div>
+</div>
