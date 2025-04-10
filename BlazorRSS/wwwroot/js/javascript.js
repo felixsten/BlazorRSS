@@ -1,38 +1,18 @@
 ﻿
-window.startAutoScroll = (containerId) => {
-    
-    setTimeout(() => {
-        const container = document.getElementById(containerId);
 
-        if (container) {
-            console.log("Container found! Starting auto-scroll.");
+window.isJsReady = () => {
+    console.log("JavaScript is ready!");
+    return true;
+};
+window.toggleDarkMode = function (enabled) {
+    if (!document || !document.body) {
+        setTimeout(() => window.toggleDarkMode(enabled), 100); 
+        return;
+    }
 
-            let scrollAmount = 0;
-            let scrollStep = 2; 
-            let isScrollingDown = true;
-
-            function scrollContent() {
-                if (isScrollingDown) {
-                    if (scrollAmount >= container.scrollHeight - container.clientHeight) {
-                        isScrollingDown = false; 
-                    } else {
-                        scrollAmount += scrollStep;
-                    }
-                } else {
-                    if (scrollAmount <= 0) {
-                        isScrollingDown = true; 
-                    } else {
-                        scrollAmount -= scrollStep;
-                    }
-                }
-                container.scrollTop = scrollAmount;
-                window.requestAnimationFrame(scrollContent);
-            }
-
-            
-            window.requestAnimationFrame(scrollContent);
-        } else {
-            console.log('Container not found');
-        }
-    }, 500); 
+    if (enabled) {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
+    }
 };

@@ -2,12 +2,24 @@
 
 <header>
     <nav>
-        <a href="/scrollfeed">Sydsvenskan</a>
-        <a href="/news">Sydsvenskan Single</a>
-        <a href="/scrollfeedworld">World</a>
-        <a href="/newsworld">World Single</a>
-        <a href="/scrollfeedbusiness">Business</a>
-        <a href="/newsbusiness">Business Single</a>
+        <button @onclick="ToggleMenu" class="menu-toggle">
+            @(ShowMenu ? "X" : ">")
+        </button>
+        @if (ShowMenu)
+        {
+            <div class="nav-content">
+                <button @onclick="ToggleDarkMode" class="darkmode-toggle">
+                    @(IsDarkMode ? "Light Mode" : "Dark Mode")
+                </button>
+                <a href="/scrollfeed">Sydsvenskan</a>
+                <a href="/news">Sydsvenskan Slideshow</a>
+                <a href="/scrollfeedworld">World</a>
+                <a href="/newsworld">World Slideshow</a>
+                <a href="/scrollfeedbusiness">Business</a>
+                <a href="/newsbusiness">Business Slideshow</a>
+            </div>
+        }
+
     </nav>
 </header>
 
@@ -19,3 +31,38 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+
+
+@code {
+    private bool IsDarkMode = false;
+    private bool _hasInitialized = false;
+    private bool ShowMenu = false;
+
+    [Inject] private IJSRuntime JS { get; set; }
+
+    private async Task ToggleDarkMode()
+    {
+        IsDarkMode = !IsDarkMode;
+        await JS.InvokeVoidAsync("toggleDarkMode", IsDarkMode);
+    }
+
+    private void ToggleMenu()
+    {
+        ShowMenu = !ShowMenu;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_hasInitialized)
+        {
+            _hasInitialized = true;
+
+            var isReady = await JS.InvokeAsync<bool>("isJsReady");
+            if (isReady)
+            {
+                await JS.InvokeVoidAsync("toggleDarkMode", IsDarkMode);
+            }
+        }
+    }
+}

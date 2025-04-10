@@ -48,6 +48,20 @@ else
                 </div>
             </div>
 
+            <div class="allnews-feed-container">
+                <div class="allnews-feed-wrapper">
+                    <div class="allnews-feed-news-content">
+                        @foreach (var item2 in allNewsFeed)
+                        {
+                            <div class="allnews-feed" @onclick="() => ShowArticle(item2)">
+                                <p class="allnews-feed-text">@item2.Title</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+
             @foreach (var item in newsItems)
             {
 
@@ -102,11 +116,47 @@ else
 
 @code {
     private List<RssFeedItem> ?newsItems;
+    private List<RssFeedItem>? allNewsPart1;
+    private List<RssFeedItem>? allNewsPart2;
+    private List<RssFeedItem>? allNewsFeed;
     private RssFeedItem? SelectedArticle;
+
+    private PeriodicTimer? _refreshTimer;
+    private CancellationTokenSource _cts = new();
 
     protected override async Task OnInitializedAsync()
     {
+        await RefreshFeeds();
+
+
+
+        _refreshTimer = new PeriodicTimer(TimeSpan.FromSeconds(30));
+        _ = Task.Run(async () =>
+        {
+            while (await _refreshTimer.WaitForNextTickAsync(_cts.Token))
+            {
+                await InvokeAsync(async () =>
+                {
+                    await RefreshFeeds();
+                    StateHasChanged();
+                });
+            }
+        });
+    }
+
+    private async Task RefreshFeeds()
+    {
+
         newsItems = await RssFeedService.GetRssFeedAsync("https://www.sydsvenskan.se/feeds/feed.xml");
+        allNewsPart1 = await RssFeedService.GetRssFeedAsync("https://feeds.skynews.com/feeds/rss/world.xml");
+        allNewsPart2 = await RssFeedService.GetRssFeedAsync("https://feeds.skynews.com/feeds/rss/business.xml");
+
+        allNewsFeed = allNewsPart1
+            .Concat(allNewsPart2)
+            .OrderByDescending(item => item.PublishDate)
+            .ToList();
+
+
     }
 
     private void ShowArticle(RssFeedItem article)
@@ -118,5 +168,11 @@ else
     private void ClearSelectedArticle()
     {
         SelectedArticle = null;
+    }
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+        _refreshTimer?.Dispose();
     }
 }

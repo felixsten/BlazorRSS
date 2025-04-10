@@ -1,41 +1,21 @@
-﻿"use strict";
+﻿'use strict';
 
-window.startAutoScroll = function (containerId) {
+window.isJsReady = function () {
+    console.log("JavaScript is ready!");
+    return true;
+};
+window.toggleDarkMode = function (enabled) {
+    if (!document || !document.body) {
+        setTimeout(function () {
+            return window.toggleDarkMode(enabled);
+        }, 100);
+        return;
+    }
 
-    setTimeout(function () {
-        var container = document.getElementById(containerId);
-
-        if (container) {
-            (function () {
-                var scrollContent = function scrollContent() {
-                    if (isScrollingDown) {
-                        if (scrollAmount >= container.scrollHeight - container.clientHeight) {
-                            isScrollingDown = false;
-                        } else {
-                            scrollAmount += scrollStep;
-                        }
-                    } else {
-                        if (scrollAmount <= 0) {
-                            isScrollingDown = true;
-                        } else {
-                            scrollAmount -= scrollStep;
-                        }
-                    }
-                    container.scrollTop = scrollAmount;
-                    window.requestAnimationFrame(scrollContent);
-                };
-
-                console.log("Container found! Starting auto-scroll.");
-
-                var scrollAmount = 0;
-                var scrollStep = 2;
-                var isScrollingDown = true;
-
-                window.requestAnimationFrame(scrollContent);
-            })();
-        } else {
-            console.log('Container not found');
-        }
-    }, 500);
+    if (enabled) {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
+    }
 };
 
